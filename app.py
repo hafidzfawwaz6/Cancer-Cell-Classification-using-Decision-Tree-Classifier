@@ -3,6 +3,7 @@ import streamlit as st
 import joblib
 import numpy as np
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
 
 # Load the trained model with the absolute path
 model_path = 'decision_tree_model.pkl'
@@ -21,21 +22,22 @@ def user_input_features():
     normal_nucleoli = st.number_input('Normal Nucleoli', min_value=1, max_value=10, value=5)
     mitoses = st.number_input('Mitoses', min_value=1, max_value=10, value=5)
     
-    data = {
-        'Sample Code Number': sample_code_number,
-        'Clump Thickness': clump_thickness,
-        'Uniformity of Cell Size': uniformity_of_cell_size,
-        'Uniformity of Cell Shape': uniformity_of_cell_shape,
-        'Marginal Adhesion': marginal_adhesion,
-        'Single Epithelial Cell Size': single_epithelial_cell_size,
-        'Bare Nuclei': bare_nuclei,
-        'Bland Chromatin': bland_chromatin,
-        'Normal Nucleoli': normal_nucleoli,
-        'Mitoses': mitoses
-    }
+    data = [
+        int(sample_code_number),
+        int(clump_thickness),
+        int(uniformity_of_cell_size),
+        int(uniformity_of_cell_shape),
+        int(marginal_adhesion),
+        int(single_epithelial_cell_size),
+        int(bare_nuclei),
+        int(bland_chromatin),
+        int(normal_nucleoli),
+        int(mitoses)
+    ]
+
+    sc = StandardScaler()
+    return sc.transform([data])
     
-    features = pd.DataFrame(data, index=[0])
-    return features
 
 # Title of the app
 st.title('Cancer Cell Prediction App')
@@ -51,7 +53,6 @@ st.write(input_df)
 if st.button('Predict'):
     # Predict the class using the model
     prediction = model.predict(input_df)
-    prediction_proba = model.predict_proba(input_df)
 
     if prediction[0] == 1: 
         st.success('Class 4 (Malignant)')
