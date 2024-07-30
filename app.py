@@ -58,6 +58,5 @@ if st.button('Predict'):
     else: 
         st.error('Class 2 (Benign)') 
 
-#trigger = st.button('Predict', on_click=prediction)
 
 
