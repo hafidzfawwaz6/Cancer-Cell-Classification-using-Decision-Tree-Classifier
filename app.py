@@ -38,7 +38,7 @@ def user_input_features():
     return features
 
 # Title of the app
-st.title('Breast Cancer Prediction App')
+st.title('Cancer Cell Prediction App')
 
 # Get user input
 input_df = user_input_features()
